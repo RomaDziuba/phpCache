@@ -1,8 +1,8 @@
 <?php 
 
-require_once dirname(__FILE__).'/CahceException.php';
+require_once dirname(__FILE__).'/CacheException.php';
 
-class Cahcer
+class Cacher
 {
     protected $adapter;
     
@@ -16,16 +16,17 @@ class Cahcer
         $libName = false;
         $parentClass = get_parent_class($cahce);
         $currentClass = get_class($cahce);
+        
+        
         switch($currentClass) {
             case 'Cache_Lite':
                 $libName = 'PearCacheLite';
                 break;
-        } // end switch
-        
-        if(!$libName) {
-            throw new SystemException( _('Cache Adapter not found') );
-        }
 
+            default:
+                $libName = $currentClass;
+                break;
+        } // end switch
         
         $className = $libName.'Adapter';
         $path = dirname(__FILE__).'/'.$className.'.php';
@@ -37,27 +38,33 @@ class Cahcer
         
         $instance = new $className($cahce);
         
-        return new Cahcer($instance);
+        return new self($instance);
     } // end factory
     
-    public function get($id, $group = 'default', $isCheckCahceValidity = true)
+    public function increment($name, $delta = 1)
     {
-        return $this->adapter->get($id, $group, $isCheckCahceValidity);
+        return $this->adapter->increment($name, $delta);
     }
     
-    public function put($data, $id = null, $group = 'default')
+    public function set($name, $value, $group = 'default')
     {
-        return $this->adapter->put($data, $id, $group);
+        return $this->adapter->set($name, $value, $group);
     }
     
-    public function remove($id , $group = 'default')
+    public function get($name, $group = 'default', $isCheckCahceValidity = true)
     {
-        $this->adapter->remove($id, $group);
+        return $this->adapter->get($name, $group, $isCheckCahceValidity);
+    }
+    
+    public function remove($name, $group = 'default')
+    {
+        $this->adapter->delete($name, $group);
     }
 
     public function clean($group = false)
     {
         $this->adapter->clean($group);
     }
+    
 }
 ?>

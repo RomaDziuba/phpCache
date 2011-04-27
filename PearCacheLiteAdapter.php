@@ -1,12 +1,19 @@
 <?php 
-class PearCacheLiteAdapter extends CahceAdapter
+class PearCacheLiteAdapter extends CacheAdapter
 {
+    private static $_counter = 0;
+    
+    public function increment($name, $delta = 1)
+    {
+        return $this->_counter += $delta;
+    }
+    
     public function get($id, $group = 'default', $isCheckCahceValidity = true)
     {
         return $this->cache->get($id, $group, !$isCheckCahceValidity);
     }
     
-    public function put($data, $id = null, $group = 'default')
+    public function set($id, $data, $group = 'default')
     {
         $res =  $this->cache->save($data, $id, $group);
         
@@ -17,7 +24,7 @@ class PearCacheLiteAdapter extends CahceAdapter
         return $res;        
     }
     
-    public function remove($id , $group = 'default')
+    public function remove($id, $group = 'default')
     {
         $this->cache->remove($id, $group);
     }

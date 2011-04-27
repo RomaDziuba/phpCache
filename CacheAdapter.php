@@ -1,5 +1,5 @@
 <?php 
-abstract class CahceAdapter 
+abstract class CacheAdapter 
 {
     protected $cache;
     
@@ -8,11 +8,13 @@ abstract class CahceAdapter
         $this->cache = $cache;
     }
     
-    abstract public function get($id, $group = 'default', $isCheckCahceValidity = true);
+    abstract function increment($name, $delta);
     
-    abstract public function put($data, $id = null, $group = 'default');
+    abstract public function get($name, $group = 'default', $isCheckCahceValidity = true);
     
-    abstract public function remove($id , $group = 'default');
+    abstract public function set($name, $value, $group = 'default');
+    
+    abstract public function remove($name , $group = 'default');
 
     abstract public function clean($group = false);
 }
