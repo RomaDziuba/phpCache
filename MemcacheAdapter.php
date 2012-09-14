@@ -26,5 +26,14 @@ class MemcacheAdapter extends CacheAdapter
         $this->cache->flush($group);
     }
     
+    public function addItem($key, $value)
+    {
+    	throw new CahceException(_('Memcache adapter does not support addItem method'));
+    }
+    
+    public function removeItem($key, $value)
+    {
+    	throw new CahceException(_('Memcache adapter does not support removeItem method'));
+    }
 }
 ?>

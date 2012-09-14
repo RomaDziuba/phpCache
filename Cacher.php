@@ -65,6 +65,16 @@ class Cacher
     {
         $this->adapter->clean($group);
     }
+    
+    public function addItem($key, $value)
+    {
+    	$this->adapter->addItem($key, $value);
+    } // end addItem
+    
+    public function removeItem($key, $value)
+    {
+    	$this->adapter->removeItem($key, $value);
+    } // end removeItem
 
 }
 ?>
